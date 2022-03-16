@@ -8,7 +8,7 @@ export class DbpediaService {
 
   constructor(private http: HttpClient) { }
 
-  query = `
+  prefixes = `
       PREFIX owl: <http://www.w3.org/2002/07/owl#>
       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -19,10 +19,15 @@ export class DbpediaService {
       PREFIX dbpedia2: <http://dbpedia.org/property/>
       PREFIX dbpedia: <http://dbpedia.org/>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-      PREFIX dbpediaOntology: <http://dbpedia.org/ontology/>
-      SELECT ?book WHERE {
-       ?book a dbpediaOntology:Book}`
+      PREFIX dbpediaOntology: <http://dbpedia.org/ontology/>`
 
+  query = `
+      ${this.prefixes}
+     SELECT ?book, ?abstract, ?author WHERE {
+      ?book a dbpediaOntology:Book;
+      dbo:abstract ?abstract.
+      OPTIONAL { ?book dbpedia2:artist ?author }
+     }`
 
   getBooks()
   {

@@ -2,6 +2,7 @@ import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { BehaviorSubject, Observable } from "rxjs";
 import { DbpediaService } from "src/app/services/service-dbpedia.service";
 import { Book } from "../book";
+import {BookResponse} from "../book-response";
 
 export class BookDataSource implements DataSource<Book> {
 
@@ -29,16 +30,16 @@ export class BookDataSource implements DataSource<Book> {
         this.loadingSubject.next(isLoading);
     }
 
-    loadBooks() 
+    loadBooks()
     {
         this.loadingSubject.next(true);
         this.bookService.getBooks().subscribe(
-            res => {
-                debugger;
-                console.log(res);
-                this.bookSubject.next(res);
-                this.totalElements.next(5);
-                this.loadingSubject.next(false);
+          (res: BookResponse) => {
+              let bookResult: Book[]  = res.results.bindings;
+              this.bookSubject.next(bookResult);
+              console.log(bookResult)
+              this.totalElements.next(5);
+              this.loadingSubject.next(false);
             }
         );
     }

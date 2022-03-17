@@ -13,15 +13,10 @@ export class BookComponent implements OnInit {
 
   }
 
-  public displayedColumns = ['Book Name', 'Abstract'];
+  public displayedColumns = ['Thumbnail', 'Author', 'Book Name', 'Abstract'];
   public dataSource: BookDataSource = new BookDataSource(this.service);
 
   ngOnInit(): void {
-    // this.service.getBooks().subscribe(
-    //   books => {
-    //     console.log(books);
-    //   }
-    // );
     this.dataSource.loadBooks();
   }
 

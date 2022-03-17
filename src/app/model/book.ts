@@ -1,6 +1,10 @@
+import {HelperDto} from "./dto/helper.dto";
+
 export interface Book {
-  title: string;
-  abstract: string;
-  thumbnail: string;
-  author: string;
+  abstract: HelperDto;
+  author: HelperDto;
+  authorName: HelperDto;
+  book: HelperDto;
+  bookTitle: HelperDto;
+  bookThumbnail: HelperDto;
 }

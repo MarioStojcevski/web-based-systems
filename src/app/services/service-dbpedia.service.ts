@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,17 +20,21 @@ export class DbpediaService {
       PREFIX dbpedia2: <http://dbpedia.org/property/>
       PREFIX dbpedia: <http://dbpedia.org/>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-      PREFIX dbpediaOntology: <http://dbpedia.org/ontology/>`
+      PREFIX dbpediaOntology: <http://dbpedia.org/ontology/>
+      PREFIX dbpprop: <http://dbpedia.org/property/>
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>`
 
   query = `
       ${this.prefixes}
-     SELECT ?book, ?abstract, ?author WHERE {
-      ?book a dbpediaOntology:Book;
-      dbo:abstract ?abstract.
-      OPTIONAL { ?book dbpedia2:artist ?author }
-     }`
+      SELECT ?book, ?abstract, ?authorName
+      WHERE {
+        ?book a dbpedia-owl:Book ;
+              dbpprop:author ?author ;
+              dbo:abstract ?abstract .
+        ?author dbpprop:name ?authorName
+      }`
 
-  getBooks()
+  getBooks() : Observable<any>
   {
     return this.http.get("https://dbpedia.org/sparql?query=" + encodeURIComponent(this.query) + "&format=json");
   }

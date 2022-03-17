@@ -8,12 +8,13 @@ export class BookDataSource implements DataSource<Book> {
 
     private bookSubject = new BehaviorSubject<Book[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
-    private totalElements = new BehaviorSubject<number>(0);
+    private totalElementsSubject = new BehaviorSubject<number>(0);
+
+    public loading$ = this.loadingSubject.asObservable();
+    public totalElements$ = this.totalElementsSubject.asObservable();
 
     constructor(private bookService: DbpediaService)
-    {
-
-    }
+    {}
 
     connect(collectionViewer: CollectionViewer): Observable<readonly Book[]> {
         // on initialization
@@ -23,7 +24,7 @@ export class BookDataSource implements DataSource<Book> {
     disconnect(collectionViewer: CollectionViewer): void {
         this.bookSubject.complete();
         this.loadingSubject.complete();
-        this.totalElements.complete();
+        this.totalElementsSubject.complete();
     }
 
     setLoading(isLoading : boolean) {
@@ -35,12 +36,16 @@ export class BookDataSource implements DataSource<Book> {
         this.loadingSubject.next(true);
         this.bookService.getBooks().subscribe(
           (res: BookResponse) => {
-              let bookResult: Book[]  = res.results.bindings;
-              this.bookSubject.next(bookResult);
-              console.log(bookResult)
-              this.totalElements.next(5);
-              this.loadingSubject.next(false);
-            }
+            let bookResult: Book[]  = res.results.bindings;
+            //console.log(bookResult);
+            this.bookSubject.next(bookResult);
+
+            this.totalElementsSubject.next(bookResult.length);
+            this.loadingSubject.next(false);
+            },
+          (error) => {
+            this.loadingSubject.next(false);
+          },
         );
     }
 

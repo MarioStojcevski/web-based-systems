@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {BookResponse} from "../model/book-response";
+import {BookPropertiesResponse} from "../model/book-properties-response";
 
 @Injectable({
   providedIn: 'root'
@@ -27,27 +28,43 @@ export class DbpediaService {
     PREFIX dbr: <http://dbpedia.org/resource/>
     PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>`
 
-  query =
-    `
-    ${this.prefixes}
-      SELECT ?book, ?bookTitle, ?abstract, ?author, ?authorName, ?bookThumbnail
-      WHERE {
-        ?book a dbpedia-owl:Book ;
-              dbpprop:author ?author ;
-              dbo:abstract ?abstract ;
-              rdfs:label ?bookTitle ;
-              dbo:thumbnail ?bookThumbnail .
-        ?bookThumbnailURL foaf:thumbnail ?bookThumbnail .
-        ?author dbpprop:name ?authorName .
-        filter langMatches(lang(?abstract), "en")
-        filter langMatches(lang(?authorName), "en")
-        filter langMatches(lang(?bookTitle), "en")
-      }
-      LIMIT 300
-    `
+  getAllBooksQuery = `${this.prefixes}
+    SELECT DISTINCT ?book, ?bookTitle, ?abstract, ?author, ?authorName, ?bookThumbnail
+    WHERE {
+      ?book a dbpedia-owl:Book ;
+            dbpprop:author ?author ;
+            dbo:abstract ?abstract ;
+            rdfs:label ?bookTitle ;
+            dbo:thumbnail ?bookThumbnail .
+      ?bookThumbnailURL foaf:thumbnail ?bookThumbnail .
+      ?author dbpprop:name ?authorName .
+      filter langMatches(lang(?abstract), "en")
+      filter langMatches(lang(?authorName), "en")
+      filter langMatches(lang(?bookTitle), "en")
+    }
 
-  getBooks() : Observable<BookResponse>
-  {
-    return this.http.get<BookResponse>("https://dbpedia.org/sparql?query=" + encodeURIComponent(this.query) + "&format=json");
+    LIMIT 30
+  `;
+
+  getBookDetailsByBookURIQuery = `${this.prefixes}
+    SELECT ?property ?value
+    WHERE {
+        <http://dbpedia.org/resource/Carmen_(novella)> ?property ?value ;
+                                                        a dbpedia-owl:Book .
+    }
+  `
+
+  getBooks() : Observable<BookResponse> {
+    return this.http.get<BookResponse>
+    ("https://dbpedia.org/sparql?query=" +
+      encodeURIComponent(this.getAllBooksQuery) +
+      "&format=json");
+  }
+
+  getBookDetailsByBookURI(bookURI: string): Observable<BookPropertiesResponse> {
+    return this.http.get<BookPropertiesResponse>
+    ("https://dbpedia.org/sparql?query=" +
+      encodeURIComponent(this.getBookDetailsByBookURIQuery) +
+      "&format=json");
   }
 }

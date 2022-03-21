@@ -47,11 +47,7 @@ export class DbpediaService {
   `;
 
   getBookDetailsByBookURIQuery = `${this.prefixes}
-    SELECT ?property ?value
-    WHERE {
-        <http://dbpedia.org/resource/Carmen_(novella)> ?property ?value ;
-                                                        a dbpedia-owl:Book .
-    }
+    SELECT ?book, ?bookTitle, ?abstract, ?author, ?authorName, ?bookThumbnail 
   `
 
   getBooks() : Observable<BookResponse> {
@@ -62,9 +58,22 @@ export class DbpediaService {
   }
 
   getBookDetailsByBookURI(bookURI: string): Observable<BookPropertiesResponse> {
+    let whereClause = ` WHERE {
+      <${bookURI}> dbpprop:author ?author ;
+                   dbo:abstract ?abstract ;
+                   rdfs:label ?bookTitle ;
+                   dbo:thumbnail ?bookThumbnail .
+      ?bookThumbnailURL foaf:thumbnail ?bookThumbnail .
+      ?author dbpprop:name ?authorName .
+      filter langMatches(lang(?abstract), "en")
+      filter langMatches(lang(?authorName), "en")
+      filter langMatches(lang(?bookTitle), "en").
+    }`;
+    let query = this.getBookDetailsByBookURIQuery + whereClause;
+    debugger;
     return this.http.get<BookPropertiesResponse>
     ("https://dbpedia.org/sparql?query=" +
-      encodeURIComponent(this.getBookDetailsByBookURIQuery) +
+      encodeURIComponent(query) +
       "&format=json");
   }
 }

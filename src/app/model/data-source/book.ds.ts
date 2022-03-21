@@ -31,22 +31,24 @@ export class BookDataSource implements DataSource<Book> {
         this.loadingSubject.next(isLoading);
     }
 
-    loadBooks()
+    loadBooks() : number
     {
+      let bookLength = 0;
         this.loadingSubject.next(true);
         this.bookService.getBooks().subscribe(
           (res: BookResponse) => {
             let bookResult: Book[]  = res.results.bindings;
-            //console.log(bookResult);
             this.bookSubject.next(bookResult);
 
             this.totalElementsSubject.next(bookResult.length);
             this.loadingSubject.next(false);
+            bookLength = bookResult.length;
             },
           (error) => {
             this.loadingSubject.next(false);
           },
         );
+          return bookLength;
     }
 
 }

@@ -70,7 +70,6 @@ export class DbpediaService {
       filter langMatches(lang(?bookTitle), "en").
     }`;
     let query = this.getBookDetailsByBookURIQuery + whereClause;
-    debugger;
     return this.http.get<BookPropertiesResponse>
     ("https://dbpedia.org/sparql?query=" +
       encodeURIComponent(query) +

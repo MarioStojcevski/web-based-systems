@@ -23,7 +23,7 @@ export class ListBooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.numberOfLoadedBooks = this.dataSource.loadBooks();
-    for(var i =0; i < this.numberOfLoadedBooks; i++)
+    for(var i = 0; i < this.numberOfLoadedBooks; i++)
     {
         this.showErrorTooltip.push(false);
     }
@@ -36,7 +36,6 @@ export class ListBooksComponent implements OnInit {
 
   setTooltip(errorIndex: number)
   {
-    debugger;
     this.showErrorTooltip[errorIndex] = true;
   }
 }

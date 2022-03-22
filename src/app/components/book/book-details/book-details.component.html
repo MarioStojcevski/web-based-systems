@@ -7,7 +7,21 @@
   </div>
 
   <div class="content-body" *ngIf="!isLoading">
-    <h2> TODO: this response is for a fixed book URI. Please fix it in the service. </h2>
-    <pre>{{ bookProperties | json }}</pre>
+    <h2> DBpedia Book info</h2>
+    <mat-card>
+      <div class="row">
+        <div class="col-4">
+          <img src="{{bookProperties[0].bookThumbnail}}" #tooltip="matTooltip" [matTooltip]="imageNotAvailableOnDbpedia ? 'There is no Image on DbPedia': ''" onerror="this.src='../../assets/images/blankbook.jpg';" (error)="showTooltip()" >
+        </div>
+        <div class="col-8 book-info">
+          <div class="row">
+            <h2>{{bookProperties[0].bookTitle.value}}</h2>
+          </div>
+          <div class="row">
+            <p>{{bookProperties[0].abstract.value}}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card>
   </div>
 </div>

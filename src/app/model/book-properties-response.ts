@@ -1,7 +1,7 @@
-import {PropertyHelperDto} from "./dto/property-helper.dto";
+import { Book } from "./book";
 
 export interface BookPropertiesResponse {
   results: {
-    bindings: PropertyHelperDto[];
+    bindings: Book[];
   }
 }

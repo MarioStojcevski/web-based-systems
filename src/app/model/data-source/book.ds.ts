@@ -17,7 +17,6 @@ export class BookDataSource implements DataSource<Book> {
     {}
 
     connect(collectionViewer: CollectionViewer): Observable<readonly Book[]> {
-        // on initialization
         return this.bookSubject.asObservable();
     }
 
@@ -50,5 +49,12 @@ export class BookDataSource implements DataSource<Book> {
         );
           return bookLength;
     }
+
+  loadFilteredBooks(filteredBooks: Book[]) : number {
+      this.loadingSubject.next(true);
+      this.bookSubject.next(filteredBooks);
+      this.totalElementsSubject.next(filteredBooks.length);
+      return filteredBooks.length;
+  }
 
 }

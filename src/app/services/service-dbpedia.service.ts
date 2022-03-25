@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {BookResponse} from "../model/book-response";
 import {BookPropertiesResponse} from "../model/book-properties-response";
+import {FilterDto} from "../model/dto/filter.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,8 @@ export class DbpediaService {
     PREFIX dbr: <http://dbpedia.org/resource/>
     PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>`
 
-  getAllBooksQuery = `${this.prefixes}
+  getAllBooksQuery =
+    `${this.prefixes}
     SELECT DISTINCT ?book, ?bookTitle, ?abstract, ?author, ?authorName, ?bookThumbnail
     WHERE {
       ?book a dbpedia-owl:Book ;
@@ -44,13 +46,13 @@ export class DbpediaService {
     }
 
     LIMIT 30
-  `;
+    `;
 
   getBookDetailsByBookURIQuery = `${this.prefixes}
-    SELECT ?book, ?bookTitle, ?abstract, ?author, ?authorName, ?bookThumbnail 
+    SELECT ?book, ?bookTitle, ?abstract, ?author, ?authorName, ?bookThumbnail
   `
 
-  getBooks() : Observable<BookResponse> {
+  getBooks(): Observable<BookResponse> {
     return this.http.get<BookResponse>
     ("https://dbpedia.org/sparql?query=" +
       encodeURIComponent(this.getAllBooksQuery) +
@@ -73,6 +75,13 @@ export class DbpediaService {
     return this.http.get<BookPropertiesResponse>
     ("https://dbpedia.org/sparql?query=" +
       encodeURIComponent(query) +
+      "&format=json");
+  }
+
+  getAllBooksFiltered(filterDto: FilterDto) : Observable<BookResponse> {
+    return this.http.get<BookResponse>
+    ("https://dbpedia.org/sparql?query=" +
+      encodeURIComponent(this.getBookDetailsByBookURIQuery) +
       "&format=json");
   }
 }

@@ -8,6 +8,8 @@
 
   <div class="content-body" *ngIf="!(dataSource.loading$ | async)">
 
+    <app-filter-and-sort (booksFiltered)="getFiltered($event)"></app-filter-and-sort>
+
     <button class="btn btn-secondary shadow-sm mb-4">
       Add a Book
     </button>

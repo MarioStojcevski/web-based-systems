@@ -1,0 +1,51 @@
+<form [formGroup]="filterForm" (ngSubmit)="filter()" >
+  <mat-card class="mt-4 mat-elevation-z5">
+      <mat-card-content>
+
+        <div class="row">
+          <section class="col-2">
+            <label>Sort By</label>
+              <br>
+            <mat-radio-group aria-label="Select an option" formControlName="sortByControl">
+              <mat-radio-button name="sortBy" value="price"></mat-radio-button>
+                <br>
+              <mat-radio-button name="sortBy" value="brand"></mat-radio-button>
+            </mat-radio-group>
+          </section>
+
+          <section class="col-5">
+            <label></label>
+            <mat-slider
+              [min]="0"
+              [max]="200000"
+              [step]="5000"
+              formControlName="minPriceControl">
+
+            </mat-slider>
+            {{filterForm.get('minPriceControl')?.value | currency:'MKD '}}
+              <br>
+            <label></label>
+            <mat-slider
+              [min]="0"
+              [max]="200000"
+              [step]="5000"
+              formControlName="maxPriceControl">
+
+            </mat-slider>
+            {{filterForm.get('maxPriceControl')?.value | currency:'MKD '}}
+          </section>
+
+        </div>
+
+      </mat-card-content>
+  </mat-card>
+  <section class="filter-button mt-3">
+    <mat-form-field appearance="fill" class="pr-3">
+      <mat-select formControlName="filterByBrandControl">
+        <mat-option label=""></mat-option>
+        <mat-option *ngFor="let brand of [1,2,4]" [value]="brand">{{brand}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="accent"></button>
+  </section>
+</form>

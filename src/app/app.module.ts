@@ -10,6 +10,9 @@ import {MaterialModule} from "./material.module";
 import { BookDetailsComponent } from './components/book/book-details/book-details.component';
 import { AuthorDetailsComponent } from './components/author/author-details/author-details.component';
 import { AddBookComponent } from './components/book/add-book/add-book.component';
+import {FilterAndSortComponent} from "./components/filter-and-sort/filter-and-sort.component";
+import {ReactiveFormsModule} from "@angular/forms";
+
 
 @NgModule({
   declarations: [
@@ -17,14 +20,16 @@ import { AddBookComponent } from './components/book/add-book/add-book.component'
     ListBooksComponent,
     BookDetailsComponent,
     AuthorDetailsComponent,
-    AddBookComponent
+    AddBookComponent,
+    FilterAndSortComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

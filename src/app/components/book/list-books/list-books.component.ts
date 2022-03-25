@@ -3,7 +3,6 @@ import { BookDataSource } from 'src/app/model/data-source/book.ds';
 import { DbpediaService } from 'src/app/services/service-dbpedia.service';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Book} from "../../../model/book";
-import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-list-books',
@@ -34,8 +33,11 @@ export class ListBooksComponent implements OnInit {
       {relativeTo: this.activatedRoute, queryParams: {bookURI: bookClicked.book.value}});
   }
 
-  setTooltip(errorIndex: number)
-  {
+  setTooltip(errorIndex: number) {
     this.showErrorTooltip[errorIndex] = true;
+  }
+
+  getFiltered(filteredBooks: Book[]): void {
+    this.dataSource.loadFilteredBooks(filteredBooks);
   }
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { BookDataSource } from 'src/app/model/data-source/book.ds';
-import { DbpediaService } from 'src/app/services/service-dbpedia.service';
+import {Component, OnInit} from '@angular/core';
+import {BookDataSource} from 'src/app/model/data-source/book.ds';
+import {DbpediaService} from 'src/app/services/service-dbpedia.service';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Book} from "../../../model/book";
 

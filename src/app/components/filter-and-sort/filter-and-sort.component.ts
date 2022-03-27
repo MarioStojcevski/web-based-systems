@@ -15,6 +15,8 @@ export class FilterAndSortComponent implements OnInit {
   @Output() booksFiltered = new EventEmitter<Book[]>();
   @Output() size = new EventEmitter<number>();
 
+  public isLoadingResults: boolean = false;
+
   public filterDto: FilterDto;
   public filterForm: FormGroup = new FormGroup({});
   public minValue = 50;
@@ -51,10 +53,12 @@ export class FilterAndSortComponent implements OnInit {
       genre: this.filterForm.get("genreControl")?.value
     };
 
+    this.isLoadingResults = true;
     this.dbpediaService.getAllBooksFiltered(this.filterDto)
       .subscribe((result) => {
         this.booksFiltered.emit(result.results.bindings);
         this.size.emit(result.results.bindings.length);
+        this.isLoadingResults = false;
       });
   }
 

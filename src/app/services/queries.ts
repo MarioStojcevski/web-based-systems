@@ -72,9 +72,11 @@ export class Queries {
             dbo:thumbnail ?bookThumbnail .
       ?bookThumbnailURL foaf:thumbnail ?bookThumbnail .
       ?author dbpprop:name ?authorName .
-      filter langMatches(lang(?abstract), "en")
-      filter langMatches(lang(?authorName), "en")
-      filter langMatches(lang(?bookTitle), "en")
+      FILTER langMatches(lang(?abstract), "en")
+      FILTER langMatches(lang(?authorName), "en")
+      FILTER langMatches(lang(?bookTitle), "en")
+      ${filterDto.searchKeyWord != "" ?
+      `FILTER CONTAINS(STR(?bookTitle), \"${filterDto.searchKeyWord}\")`: ""}
     }
     ${filterDto.sortBy !== "" ? "ORDER BY " + filterDto.sortBy + "(?bookTitle)" : ""}
     LIMIT ${filterDto.resultsCount !== 0 ? filterDto.resultsCount.toString() : "30"}
@@ -82,8 +84,7 @@ export class Queries {
   }
 
  public static GET_BOOK_DETAILS_FROM_WIKIDATA(uri: string) : string{
-    return `SELECT ?prop ?val` + " WHERE {" + uri + " ?prop ?val }"
- ;
- } 
+    return `SELECT ?prop ?val` + " WHERE {" + uri + " ?prop ?val }";
+ }
 
 }

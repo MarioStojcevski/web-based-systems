@@ -1,1 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+html, body {
+  height: 100%;
+  font-family: Cuprum, sans-serif !important;
+}
+
+body {
+  margin: 0;
+}
+
+.content-heading {
+  text-align: center;
+  margin-bottom: 25px;
+  background-color: #fff;
+  padding: 15px 0px 10px 20px;
+  box-shadow: 0 -5px 10px 0px black;
+}
+
+.content-heading h2 {
+  color: #0c426f;
+  font-weight: 600;
+}
+
+.content-body {
+  padding: 0px 30px 10px 30px;
+  width: 100%;
+}
+
+.content-container{
+  height: 100%;
+}
+
+.action-button{
+  margin-right: 20px;
+  margin-top: 5px;
+}
+
+.mat-row:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.mat-row:active {
+  background-color: gray;
+  cursor: pointer;
+}
+
+.mat-header-cell {
+  font-weight: 800;
+}
+
+td.mat-cell {
+  padding-right: 10px !important;
+}
+
+.mat-elevation-z8 {
+  background-color: #fff;
+  position: relative;
+  width: 100%;
+}
+
+.table-container {
+  position: relative;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

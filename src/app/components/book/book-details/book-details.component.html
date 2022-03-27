@@ -1,0 +1,36 @@
+<div class="content-container">
+  <div class="content-heading">
+    <h2> Details for Book </h2>
+  </div>
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="content-body" *ngIf="!isLoading">
+    <mat-card>
+      <div class="row">
+        <div class="col-4">
+          <img src="{{bookProperties[0]?.bookThumbnail}}" #tooltip="matTooltip" [matTooltip]="imageNotAvailableOnDbpedia ? 'There is no Image on DbPedia': ''" onerror="this.src='../../assets/images/blankbook.jpg';" (error)="showTooltip()" >
+        </div>
+        <div class="col-8 book-info">
+          <div class="row">
+            <h2>{{bookProperties[0].bookTitle.value}}</h2>
+          </div>
+          <div class="row">
+            <p>Author: {{bookProperties[0].authorName.value}}</p>
+            <p>Source: DbPedia</p>
+          </div>
+          <hr>
+          <div class="row">
+            <p>{{bookProperties[0].abstract.value}}</p>
+          </div>
+          <div class="row">
+            <p>Number of pages: {{bookProperties[0].numPages.value}}</p>
+          </div>
+          
+          
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

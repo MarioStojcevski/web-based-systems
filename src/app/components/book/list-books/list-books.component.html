@@ -1,0 +1,61 @@
+<div class="content-container">
+  <div class="content-heading">
+    <h2> Books from DBPedia</h2>
+  </div>
+  <div class="loading-shade" *ngIf="(dataSource.loading$ | async)">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="content-body" *ngIf="!(dataSource.loading$ | async)">
+
+    <app-filter-and-sort (booksFiltered)="getFiltered($event)"></app-filter-and-sort>
+
+    <div class="container-fluid">
+      <div class="mat-elevation-z8">
+        <div class="table-container">
+          <table *ngIf="!(dataSource.loading$ | async)" mat-table [dataSource]="dataSource" class="w-100" >
+
+            <ng-container matColumnDef="Thumbnail">
+              <th mat-header-cell *matHeaderCellDef>
+                Image
+              </th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                <img class="book-image" src="{{element.bookThumbnail.value}}" alt="{{element.bookTitle.value}}" #tooltip="matTooltip" [matTooltip]="showErrorTooltip[i] ? 'There is no image available on DBPedia' : ''" onerror="this.src='../../assets/images/blankbook.jpg';" matTooltipPosition="right" (error)="setTooltip(i)"/>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Book Name">
+              <th mat-header-cell *matHeaderCellDef>
+                Book Name
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{element.bookTitle.value}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Author">
+              <th mat-header-cell *matHeaderCellDef>
+                Author
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{element.authorName.value}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Abstract">
+              <th mat-header-cell *matHeaderCellDef>
+                Abstract
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{element.abstract.value}}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -74,7 +74,7 @@ export class Queries {
       filter langMatches(lang(?bookTitle), "en")
     }
     ${filterDto.sortBy !== "" ? "ORDER BY " + filterDto.sortBy + "(?bookTitle)" : ""}
-    LIMIT 30
+    LIMIT ${filterDto.resultsCount !== 0 ? filterDto.resultsCount.toString() : "30"}
     `;
   }
 

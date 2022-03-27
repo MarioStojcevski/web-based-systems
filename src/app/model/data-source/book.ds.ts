@@ -30,31 +30,26 @@ export class BookDataSource implements DataSource<Book> {
         this.loadingSubject.next(isLoading);
     }
 
-    loadBooks() : number
-    {
-      let bookLength = 0;
-        this.loadingSubject.next(true);
-        this.bookService.getBooks().subscribe(
-          (res: BookResponse) => {
-            let bookResult: Book[]  = res.results.bindings;
-            this.bookSubject.next(bookResult);
+    loadBooks() : number {
+      this.loadingSubject.next(true);
+      this.bookService.getAllBooks().subscribe(
+        (result: BookResponse) => {
+          let bookResult: Book[] = result.results.bindings;
+          this.bookSubject.next(bookResult);
+          this.totalElementsSubject.next(bookResult.length);
+          this.loadingSubject.next(false);
+          }
+      );
 
-            this.totalElementsSubject.next(bookResult.length);
-            this.loadingSubject.next(false);
-            bookLength = bookResult.length;
-            },
-          (error) => {
-            this.loadingSubject.next(false);
-          },
-        );
-          return bookLength;
+      return this.totalElementsSubject.value;
     }
 
   loadFilteredBooks(filteredBooks: Book[]) : number {
-      this.loadingSubject.next(true);
-      this.bookSubject.next(filteredBooks);
-      this.totalElementsSubject.next(filteredBooks.length);
-      return filteredBooks.length;
+    this.loadingSubject.next(true);
+    this.bookSubject.next(filteredBooks);
+    this.totalElementsSubject.next(filteredBooks.length);
+    this.loadingSubject.next(false);
+    return filteredBooks.length;
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterDto} from "../../model/dto/filter.dto";
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
 import {Book} from "../../model/book";
 import {DbpediaService} from "../../services/service-dbpedia.service";
@@ -17,20 +17,16 @@ export class FilterAndSortComponent implements OnInit {
 
   public filterDto: FilterDto;
   public filterForm: FormGroup = new FormGroup({});
-  public minValue = 15000;
-  public maxValue = 50000;
+  public minValue = 50;
+  public maxValue = 5000;
 
-  constructor(
-    private fb: FormBuilder,
-    private dbpediaService: DbpediaService
-  )
-  {
+  constructor(private fb: FormBuilder,
+              private dbpediaService: DbpediaService) {
     this.filterDto = {
-      sortBy: '',
-      minPrice: 15000,
-      maxPrice: 50000,
-      powerArray: [],
-      filterByBrand: ""
+      sortBy: "",
+      resultsCount: 50,
+      searchKeyWord: "",
+      genre: ""
     };
   }
 
@@ -41,32 +37,25 @@ export class FilterAndSortComponent implements OnInit {
   private initFilterForm(): void {
     this.filterForm = this.fb.group({
       sortByControl: [''],
-      minPriceControl: new FormControl(this.minValue),
-      maxPriceControl: new FormControl(this.maxValue),
-      powerArrayControl: this.fb.array([]),
-      filterByBrandControl: [null]
+      resultsCountControl: [this.minValue],
+      searchKeyWordControl: [''],
+      genreControl: ['']
     });
-  }
-
-  public onCheckboxChange(e: any): void {
-    const powerArray: FormArray = this.filterForm.get('powerArrayControl') as FormArray;
-    if (e.checked) {
-      powerArray.push(new FormControl(e.source.value));
-    }
-    else {
-      for(let i=0; i<powerArray.controls.length; i++) {
-        if(powerArray.controls[i].value == e.source.value) {
-          powerArray.removeAt(i);
-        }
-      }
-    }
   }
 
   public filter(): void {
     this.filterDto = {
+      sortBy: this.filterForm.get("sortByControl")?.value,
+      resultsCount: this.filterForm.get("resultsCountControl")?.value,
+      searchKeyWord: this.filterForm.get("searchKeyWordControl")?.value,
+      genre: this.filterForm.get("genreControl")?.value
     };
-    console.log(this.filterDto);
 
+    this.dbpediaService.getAllBooksFiltered(this.filterDto)
+      .subscribe((result) => {
+        this.booksFiltered.emit(result.results.bindings);
+        this.size.emit(result.results.bindings.length);
+      });
   }
 
 }

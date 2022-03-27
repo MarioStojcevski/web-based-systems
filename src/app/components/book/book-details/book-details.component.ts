@@ -37,6 +37,12 @@ export class BookDetailsComponent implements OnInit {
       .subscribe((result: BookPropertiesResponse) => {
         this.bookProperties = result.results.bindings;
         this.isLoading = false;
+        var sameAsBookURI = this.bookProperties[0].wikiDataEntity.value;
+        this.service.getBookDetailsFromWikiData('<' + sameAsBookURI + '>').subscribe(
+          res => {
+            // show the data in the template
+          }
+        )
       });
   }
 

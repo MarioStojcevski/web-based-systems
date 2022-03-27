@@ -7,4 +7,6 @@ export interface Book {
   book: HelperDto;
   bookTitle: HelperDto;
   bookThumbnail: HelperDto;
+  numPages: HelperDto;
+  wikiDataEntity: HelperDto;
 }

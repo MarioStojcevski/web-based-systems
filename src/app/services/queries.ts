@@ -40,18 +40,21 @@ export class Queries {
 
   public static GET_BOOK_DETAILS_BY_BOOK_URI(bookURI: string): string {
     return `${this.PREFIXES}
-     SELECT ?book, ?bookTitle, ?abstract, ?author, ?authorName, ?bookThumbnail
+     SELECT ?book, ?bookTitle, ?abstract, ?author, ?authorName, ?bookThumbnail, ?numPages, ?wikiDataEntity
 
      WHERE {
       <${bookURI}> dbpprop:author ?author ;
                    dbo:abstract ?abstract ;
                    rdfs:label ?bookTitle ;
-                   dbo:thumbnail ?bookThumbnail .
+                   dbo:thumbnail ?bookThumbnail ;
+                   dbpediaOntology:numberOfPages ?numPages ;
+                   owl:sameAs ?wikiDataEntity .
       ?bookThumbnailURL foaf:thumbnail ?bookThumbnail .
       ?author dbpprop:name ?authorName .
       filter langMatches(lang(?abstract), "en")
       filter langMatches(lang(?authorName), "en")
       filter langMatches(lang(?bookTitle), "en").
+      filter strStarts(str(?wikiDataEntity), 'http://www.wikidata.org/').
     }
     `;
   }
@@ -77,5 +80,10 @@ export class Queries {
     LIMIT ${filterDto.resultsCount !== 0 ? filterDto.resultsCount.toString() : "30"}
     `;
   }
+
+ public static GET_BOOK_DETAILS_FROM_WIKIDATA(uri: string) : string{
+    return `SELECT ?prop ?val` + " WHERE {" + uri + " ?prop ?val }"
+ ;
+ } 
 
 }

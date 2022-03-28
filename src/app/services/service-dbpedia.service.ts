@@ -1,7 +1,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import {BookResponse} from "../model/book-response";
 import {BookPropertiesResponse} from "../model/book-properties-response";
 import {FilterDto} from "../model/dto/filter.dto";
@@ -36,17 +36,18 @@ export class DbpediaService {
 
   getBookDetailsFromWikiData(uri: string) : Observable<BookPropertiesResponse>
   {
-      const headerDictionary = {
-        'Accept': 'application/json',
-        'Access-Control-Allow-Headers': '*' 
-      }
+      // const headerDictionary = {
+      //   'Accept': 'application/json',
+      //   'Content-Type': 'application/json',
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Access-Control-Allow-Headers': 'Content-Type'
+      // }
 
-      const options =  {
-        headers: new HttpHeaders(headerDictionary)
-      }
+      // const options =  {
+      //   headers: new HttpHeaders(headerDictionary)
+      // }
 
-      return this.http.get<BookPropertiesResponse>("https://query.wikidata.org/sparql?query=" + encodeURIComponent(Queries.GET_BOOK_DETAILS_FROM_WIKIDATA(uri)), options);
-      // return this.http.get<BookPropertiesResponse>(Queries.GET_BOOK_DETAILS_FROM_WIKIDATA(uri));
-
+      return this.http.get<BookPropertiesResponse>("/api/sparql?query=" + encodeURIComponent(Queries.GET_BOOK_DETAILS_FROM_WIKIDATA(uri)) + "&format=json&origin=*")
+        .pipe(catchError(e => of(e)));
   }
 }

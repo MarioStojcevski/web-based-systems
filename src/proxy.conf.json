@@ -1,0 +1,13 @@
+{
+    "/api/*": {
+        "target": "http://query.wikidata.org",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {"^/api" : ""},
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type,Control-Allow-Origin"
+        }
+    }
+}   

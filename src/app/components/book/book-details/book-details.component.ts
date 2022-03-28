@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {DbpediaService} from "../../../services/service-dbpedia.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BookPropertiesResponse} from "../../../model/book-properties-response";
-import {PropertyHelperDto} from "../../../model/dto/property-helper.dto";
 import { Book } from 'src/app/model/book';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-book-details',
@@ -41,6 +41,10 @@ export class BookDetailsComponent implements OnInit {
         this.service.getBookDetailsFromWikiData('<' + sameAsBookURI + '>').subscribe(
           res => {
             // show the data in the template
+            console.log(res);
+          },
+          err => {
+            console.log(err);
           }
         )
       });

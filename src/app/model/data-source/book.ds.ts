@@ -34,6 +34,7 @@ export class BookDataSource implements DataSource<Book> {
       this.loadingSubject.next(true);
       this.bookService.getAllBooks().subscribe(
         (result: BookResponse) => {
+          console.log(result);
           let bookResult: Book[] = result.results.bindings;
           this.bookSubject.next(bookResult);
           this.totalElementsSubject.next(bookResult.length);

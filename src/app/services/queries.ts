@@ -83,8 +83,8 @@ export class Queries {
     `;
   }
 
- public static GET_BOOK_DETAILS_FROM_WIKIDATA(uri: string) : string{
-    return `SELECT ?prop ?val` + " WHERE {" + uri + " ?prop ?val }";
+ public static GET_BOOK_DETAILS_FROM_WIKIDATA(uri: string) : string {
+    return `SELECT ?prop ?book` + " WHERE { " + uri + " ?prop ?book }";
  }
 
 }

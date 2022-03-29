@@ -40,6 +40,7 @@ export class BookDetailsComponent implements OnInit {
         var sameAsBookURI = this.bookDbPedia[0].wikiDataEntity.value;
         this.service.getBookDetailsFromWikiData('<' + sameAsBookURI + '>').subscribe(
           ( wikiDataResult) => {
+            console.log(wikiDataResult);
             this.bookWikiData = wikiDataResult.results.bindings;
             this.authorURI = this.bookWikiData[0].authorURI.value;
             this.isLoading = false;

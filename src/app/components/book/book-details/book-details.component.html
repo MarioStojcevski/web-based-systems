@@ -27,15 +27,24 @@
           </mat-card-header>
           <img src="{{bookDbPedia[0]?.bookThumbnail}}" #tooltip="matTooltip" [matTooltip]="imageNotAvailableOnDbpedia ? 'There is no Image on DbPedia': ''" onerror="this.src='../../assets/images/blankbook.jpg';" (error)="showTooltip()" >
           <mat-card-content>
-            <p>Author:
+            <h2>Author
+            </h2>
+            <h3>
               {{bookDbPedia[0].authorName.value}}
-            </p>
-            <p>
+            </h3>
+            <h2>
+              Abstract
+            </h2>
+            <h3>
+              <br/>
               {{bookDbPedia[0].abstract.value}}
-            </p>
-            <p>Number of pages:
+            </h3>
+            <h2>
+              Number of pages
+            </h2>
+            <h3>
               {{bookDbPedia[0].numPages.value}}
-            </p>
+            </h3>
           </mat-card-content>
         </mat-card>
       </div>
@@ -48,29 +57,44 @@
           </mat-card-header>
           <img src="{{bookWikiData[0]?.authorImage}}" #tooltip="matTooltip" [matTooltip]="imageNotAvailableOnDbpedia ? 'There is no Image on WikiData': ''" onerror="this.src='../../assets/images/blankbook.jpg';" (error)="showTooltip()" >
           <mat-card-content>
-            <p>Publication Date:
+            <h2>
+              Publication Date
+            </h2>
+            <h3>
               {{bookWikiData[0].publication_date.value | date:'short'}}
-            </p>
-            <p>Author Link:<br>
-              <a href="{{bookWikiData[0].authorName.value}}">{{bookWikiData[0].authorName.value}}</a>
-            </p>
-            <p>Author Image Link:<br>
-              <a href="{{bookWikiData[0].authorImage.value}}">{{bookWikiData[0].authorName.value}}</a>
-            </p>
-            <p>Author Country Link:<br>
-              <a href="{{bookWikiData[0].authorCountry.value}}">{{bookWikiData[0].authorName.value}}</a>
-            </p>
-            <p>Language Link:<br>
-              <a href="{{bookWikiData[0].language.value}}">{{bookWikiData[0].authorName.value}}</a>
-            </p>
-            <p>Book origin Country Link:<br>
-              <a href="{{bookWikiData[0].book_country_origin.value}}">{{bookWikiData[0].authorName.value}}</a>
-            </p>
+            </h3>
+            <h2>
+              Author Name
+            </h2>
+            <h3>
+              {{bookWikiData[0].authorNameLabel.value}}
+            </h3>
+            <h2>
+              Author Image
+            </h2>
+            <img src="{{bookWikiData[0].authorImage.value}}" />
+         
+            <h2>
+              Author Country
+            </h2>
+            <h3>
+              {{bookWikiData[0].book_country_originLabel.value}}
+            </h3>
+            <h2>
+              Language
+            </h2>
+            <h3>
+              {{bookWikiData[0].languageLabel.value}}
+            </h3>
+            <h2>
+              Book origin Country
+            </h2>
+            <h3>
+              {{bookWikiData[0].book_country_originLabel.value}}
+            </h3>
           </mat-card-content>
         </mat-card>
       </div>
-
     </div>
-
   </div>
 </div>

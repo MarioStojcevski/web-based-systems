@@ -9,4 +9,9 @@ export interface WikiDataBook {
   language: HelperDto;
   publication_date: HelperDto;
   title: HelperDto;
+  authorURILabel: HelperDto;
+  publication_dateLabel: HelperDto;
+  languageLabel: HelperDto;
+  authorNameLabel: HelperDto;
+  book_country_originLabel: HelperDto;
 }

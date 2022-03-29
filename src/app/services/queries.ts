@@ -85,21 +85,23 @@ export class Queries {
 
  public static GET_BOOK_DETAILS_FROM_WIKIDATA(uri: string) : string {
     return `
+    PREFIX wikibase: <http://wikiba.se/ontology#>
+
     SELECT DISTINCT ?title ?publication_date
                     ?language ?book_country_origin
                     ?authorURI ?authorName
-                    ?authorCountry ?authorImage
+                    ?authorCountry ?authorImage ?authorURILabel ?publication_dateLabel ?languageLabel ?authorNameLabel ?book_country_originLabel
       WHERE {
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
         ${uri} wdt:P1476 ?title ;
                wdt:P577 ?publication_date ;
-               p:P407 ?language ;
-               p:P495 ?book_country_origin ;
+               wdt:P407 ?language ;
+               wdt:P495 ?book_country_origin ;
                wdt:P50 ?authorURI .
 
-        ?authorURI p:P735 ?authorName ;
-                   p:P27 ?authorCountry ;
-                   p:P18 ?authorImage ;
-
+        ?authorURI wdt:P735 ?authorName ;
+                   wdt:P27 ?authorCountry ;
+                   wdt:P18 ?authorImage ;
       }
     `;
  }

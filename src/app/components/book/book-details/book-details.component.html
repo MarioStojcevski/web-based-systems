@@ -8,8 +8,13 @@
 
   <div class="content-body" *ngIf="!isLoading">
 
-    <button mat-raised-button color="primary" [routerLink]="['../']">
+    <button class="m-2" mat-raised-button color="primary" [routerLink]="['../']">
       Back
+    </button>
+
+    <button class="m-2" mat-raised-button color="primary"
+            [routerLink]="['../../author']" [queryParams]="{authorURI: {authorURI}}">
+      More about the Author
     </button>
 
     <div class="row">

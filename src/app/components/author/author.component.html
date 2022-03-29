@@ -1,0 +1,16 @@
+<div class="content-container">
+  <div class="content-heading">
+    <h2> Details for Author </h2>
+  </div>
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="content-body" *ngIf="!isLoading">
+
+    <button class="m-2" mat-raised-button color="primary" [routerLink]="['../']">
+      Back
+    </button>
+
+  </div>
+</div>

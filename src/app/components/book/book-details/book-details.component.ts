@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DbpediaService} from "../../../services/service-dbpedia.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import { DbpediaBook } from 'src/app/model/dbpedia/dbpedia-book';
 import {DbpediaBookResponse} from "../../../model/dbpedia/dbpedia-book-response";
 import {WikiDataBook} from "../../../model/wikidata/wiki-data-book";
@@ -16,6 +16,7 @@ export class BookDetailsComponent implements OnInit {
   bookURI: string = '';
   bookDbPedia: DbpediaBook[] = [];
   bookWikiData: WikiDataBook[] = [];
+  authorURI: string = "";
   imageNotAvailableOnDbpedia = false;
 
   constructor(private service: DbpediaService,
@@ -40,6 +41,7 @@ export class BookDetailsComponent implements OnInit {
         this.service.getBookDetailsFromWikiData('<' + sameAsBookURI + '>').subscribe(
           ( wikiDataResult) => {
             this.bookWikiData = wikiDataResult.results.bindings;
+            this.authorURI = this.bookWikiData[0].authorURI.value;
             this.isLoading = false;
           });
       });

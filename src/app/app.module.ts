@@ -10,6 +10,7 @@ import {MaterialModule} from "./material.module";
 import { BookDetailsComponent } from './components/book/book-details/book-details.component';
 import {FilterAndSortComponent} from "./components/filter-and-sort/filter-and-sort.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import { AuthorComponent } from './components/author/author.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     AppComponent,
     ListBooksComponent,
     BookDetailsComponent,
-    FilterAndSortComponent
+    FilterAndSortComponent,
+    AuthorComponent
   ],
     imports: [
         BrowserModule,

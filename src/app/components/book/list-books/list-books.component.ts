@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BookDataSource} from 'src/app/model/data-source/book.ds';
 import {DbpediaService} from 'src/app/services/service-dbpedia.service';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Book} from "../../../model/book";
+import {DbpediaBook} from "../../../model/dbpedia/dbpedia-book";
 
 @Component({
   selector: 'app-list-books',
@@ -15,7 +15,7 @@ export class ListBooksComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private router: Router) { }
 
-  public displayedColumns = ['Thumbnail', 'Author', 'Book Name', 'Abstract'];
+  public displayedColumns = ['Thumbnail', 'Author', 'DbpediaBook Name', 'Abstract'];
   public dataSource: BookDataSource = new BookDataSource(this.service);
   public showErrorTooltip : boolean[] = [];
   public numberOfLoadedBooks = 0;
@@ -28,7 +28,7 @@ export class ListBooksComponent implements OnInit {
     }
   }
 
-  onRowClick(bookClicked: Book): void {
+  onRowClick(bookClicked: DbpediaBook): void {
     this.router.navigate(['./details'],
       {relativeTo: this.activatedRoute, queryParams: {bookURI: bookClicked.book.value}});
   }
@@ -37,7 +37,7 @@ export class ListBooksComponent implements OnInit {
     this.showErrorTooltip[errorIndex] = true;
   }
 
-  getFiltered(filteredBooks: Book[]): void {
+  getFiltered(filteredBooks: DbpediaBook[]): void {
     this.dataSource.loadFilteredBooks(filteredBooks);
   }
 }

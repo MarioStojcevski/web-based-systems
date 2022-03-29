@@ -7,30 +7,65 @@
   </div>
 
   <div class="content-body" *ngIf="!isLoading">
-    <mat-card>
-      <div class="row">
-        <div class="col-4">
-          <img src="{{bookProperties[0]?.bookThumbnail}}" #tooltip="matTooltip" [matTooltip]="imageNotAvailableOnDbpedia ? 'There is no Image on DbPedia': ''" onerror="this.src='../../assets/images/blankbook.jpg';" (error)="showTooltip()" >
-        </div>
-        <div class="col-8 book-info">
-          <div class="row">
-            <h2>{{bookProperties[0].bookTitle.value}}</h2>
-          </div>
-          <div class="row">
-            <p>Author: {{bookProperties[0].authorName.value}}</p>
-            <p>Source: DbPedia</p>
-          </div>
-          <hr>
-          <div class="row">
-            <p>{{bookProperties[0].abstract.value}}</p>
-          </div>
-          <div class="row">
-            <p>Number of pages: {{bookProperties[0].numPages.value}}</p>
-          </div>
-          
-          
-        </div>
+
+    <button mat-raised-button color="primary" [routerLink]="['../']">
+      Back
+    </button>
+
+    <div class="row">
+
+      <div class="mt-5 col-lg-6 col-md-12 col-sm-12">
+        <mat-card class="p-3">
+          <mat-card-header>
+            <mat-card-title>{{bookDbPedia[0].bookTitle.value}}</mat-card-title>
+            <mat-card-subtitle>Source: DbPedia</mat-card-subtitle>
+          </mat-card-header>
+          <img src="{{bookDbPedia[0]?.bookThumbnail}}" #tooltip="matTooltip" [matTooltip]="imageNotAvailableOnDbpedia ? 'There is no Image on DbPedia': ''" onerror="this.src='../../assets/images/blankbook.jpg';" (error)="showTooltip()" >
+          <mat-card-content>
+            <p>Author:
+              {{bookDbPedia[0].authorName.value}}
+            </p>
+            <p>
+              {{bookDbPedia[0].abstract.value}}
+            </p>
+            <p>Number of pages:
+              {{bookDbPedia[0].numPages.value}}
+            </p>
+          </mat-card-content>
+        </mat-card>
       </div>
-    </mat-card>
+
+      <div class="mt-5 col-lg-6 col-md-12 col-sm-12">
+        <mat-card class="p-3">
+          <mat-card-header>
+            <mat-card-title>{{bookWikiData[0].title.value}}</mat-card-title>
+            <mat-card-subtitle>Source: WikiData</mat-card-subtitle>
+          </mat-card-header>
+          <img src="{{bookWikiData[0]?.authorImage}}" #tooltip="matTooltip" [matTooltip]="imageNotAvailableOnDbpedia ? 'There is no Image on WikiData': ''" onerror="this.src='../../assets/images/blankbook.jpg';" (error)="showTooltip()" >
+          <mat-card-content>
+            <p>Publication Date:
+              {{bookWikiData[0].publication_date.value | date:'short'}}
+            </p>
+            <p>Author Link:<br>
+              <a href="{{bookWikiData[0].authorName.value}}">{{bookWikiData[0].authorName.value}}</a>
+            </p>
+            <p>Author Image Link:<br>
+              <a href="{{bookWikiData[0].authorImage.value}}">{{bookWikiData[0].authorName.value}}</a>
+            </p>
+            <p>Author Country Link:<br>
+              <a href="{{bookWikiData[0].authorCountry.value}}">{{bookWikiData[0].authorName.value}}</a>
+            </p>
+            <p>Language Link:<br>
+              <a href="{{bookWikiData[0].language.value}}">{{bookWikiData[0].authorName.value}}</a>
+            </p>
+            <p>Book origin Country Link:<br>
+              <a href="{{bookWikiData[0].book_country_origin.value}}">{{bookWikiData[0].authorName.value}}</a>
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </div>
+
   </div>
 </div>

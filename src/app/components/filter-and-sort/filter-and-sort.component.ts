@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilterDto} from "../../model/dto/filter.dto";
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
-import {Book} from "../../model/book";
+import {DbpediaBook} from "../../model/dbpedia/dbpedia-book";
 import {DbpediaService} from "../../services/service-dbpedia.service";
 
 @Component({
@@ -12,7 +12,7 @@ import {DbpediaService} from "../../services/service-dbpedia.service";
 })
 export class FilterAndSortComponent implements OnInit {
 
-  @Output() booksFiltered = new EventEmitter<Book[]>();
+  @Output() booksFiltered = new EventEmitter<DbpediaBook[]>();
   @Output() size = new EventEmitter<number>();
 
   public isLoadingResults: boolean = false;

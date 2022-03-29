@@ -1,11 +1,11 @@
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
-import {BookResponse} from "../model/book-response";
-import {BookPropertiesResponse} from "../model/book-properties-response";
+import {DbpediaBookResponse} from "../model/dbpedia/dbpedia-book-response";
 import {FilterDto} from "../model/dto/filter.dto";
 import {Queries} from "./queries";
+import {WikiDataBookResponse} from "../model/wikidata/wiki-data-book-response";
 
 @Injectable({
   providedIn: 'root'
@@ -14,40 +14,31 @@ export class DbpediaService {
 
   constructor(private http: HttpClient) { }
 
-  getAllBooks(): Observable<BookResponse> {
-    return this.http.get<BookResponse>
+  getAllBooks(): Observable<DbpediaBookResponse> {
+    return this.http.get<DbpediaBookResponse>
     ("https://dbpedia.org/sparql?query=" +
       encodeURIComponent(Queries.GET_ALL_BOOKS) +
       "&format=json");
   }
 
-  getBookDetailsByBookURI(bookURI: string): Observable<BookPropertiesResponse> {
-    return this.http.get<BookPropertiesResponse>
+  getBookDetailsByBookURI(bookURI: string): Observable<DbpediaBookResponse> {
+    return this.http.get<DbpediaBookResponse>
     ("https://dbpedia.org/sparql?query=" +
       encodeURIComponent(Queries.GET_BOOK_DETAILS_BY_BOOK_URI(bookURI)) +
       "&format=json");
   }
 
-  getAllBooksFiltered(filterDto: FilterDto) : Observable<BookResponse> {
-    return this.http.get<BookResponse>("https://dbpedia.org/sparql?query=" +
+  getAllBooksFiltered(filterDto: FilterDto) : Observable<DbpediaBookResponse> {
+    return this.http.get<DbpediaBookResponse>("https://dbpedia.org/sparql?query=" +
       encodeURIComponent(Queries.GET_ALL_BOOKS_FILTERED(filterDto)) + //change this to GET_FILTERED_BOOKS
       "&format=json");
   }
 
-  getBookDetailsFromWikiData(uri: string) : Observable<BookPropertiesResponse>
+  getBookDetailsFromWikiData(uri: string) : Observable<WikiDataBookResponse>
   {
-      // const headerDictionary = {
-      //   'Accept': 'application/json',
-      //   'Content-Type': 'application/json',
-      //   'Access-Control-Allow-Origin': '*',
-      //   'Access-Control-Allow-Headers': 'Content-Type'
-      // }
-
-      // const options =  {
-      //   headers: new HttpHeaders(headerDictionary)
-      // }
-
-      return this.http.get<BookPropertiesResponse>("/api/sparql?query=" + encodeURIComponent(Queries.GET_BOOK_DETAILS_FROM_WIKIDATA(uri)) + "&format=json&origin=*")
+      return this.http.get<DbpediaBookResponse>("/api/sparql?query=" +
+        encodeURIComponent(Queries.GET_BOOK_DETAILS_FROM_WIKIDATA(uri)) +
+        "&format=json&origin=*")
         .pipe(catchError(e => of(e)));
   }
 }

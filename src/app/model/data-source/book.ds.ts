@@ -1,12 +1,12 @@
-import { CollectionViewer, DataSource } from "@angular/cdk/collections";
-import { BehaviorSubject, Observable } from "rxjs";
-import { DbpediaService } from "src/app/services/service-dbpedia.service";
-import { Book } from "../book";
-import {BookResponse} from "../book-response";
+import {CollectionViewer, DataSource} from "@angular/cdk/collections";
+import {BehaviorSubject, Observable} from "rxjs";
+import {DbpediaService} from "src/app/services/service-dbpedia.service";
+import {DbpediaBook} from "../dbpedia/dbpedia-book";
+import {DbpediaBookResponse} from "../dbpedia/dbpedia-book-response";
 
-export class BookDataSource implements DataSource<Book> {
+export class BookDataSource implements DataSource<DbpediaBook> {
 
-    private bookSubject = new BehaviorSubject<Book[]>([]);
+    private bookSubject = new BehaviorSubject<DbpediaBook[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
     private totalElementsSubject = new BehaviorSubject<number>(0);
 
@@ -16,7 +16,7 @@ export class BookDataSource implements DataSource<Book> {
     constructor(private bookService: DbpediaService)
     {}
 
-    connect(collectionViewer: CollectionViewer): Observable<readonly Book[]> {
+    connect(collectionViewer: CollectionViewer): Observable<readonly DbpediaBook[]> {
         return this.bookSubject.asObservable();
     }
 
@@ -33,9 +33,9 @@ export class BookDataSource implements DataSource<Book> {
     loadBooks() : number {
       this.loadingSubject.next(true);
       this.bookService.getAllBooks().subscribe(
-        (result: BookResponse) => {
+        (result: DbpediaBookResponse) => {
           console.log(result);
-          let bookResult: Book[] = result.results.bindings;
+          let bookResult: DbpediaBook[] = result.results.bindings;
           this.bookSubject.next(bookResult);
           this.totalElementsSubject.next(bookResult.length);
           this.loadingSubject.next(false);
@@ -45,7 +45,7 @@ export class BookDataSource implements DataSource<Book> {
       return this.totalElementsSubject.value;
     }
 
-  loadFilteredBooks(filteredBooks: Book[]) : number {
+  loadFilteredBooks(filteredBooks: DbpediaBook[]) : number {
     this.loadingSubject.next(true);
     this.bookSubject.next(filteredBooks);
     this.totalElementsSubject.next(filteredBooks.length);

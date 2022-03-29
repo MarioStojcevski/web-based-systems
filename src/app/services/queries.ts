@@ -84,7 +84,24 @@ export class Queries {
   }
 
  public static GET_BOOK_DETAILS_FROM_WIKIDATA(uri: string) : string {
-    return `SELECT ?prop ?book` + " WHERE { " + uri + " ?prop ?book }";
+    return `
+    SELECT DISTINCT ?title ?publication_date
+                    ?language ?book_country_origin
+                    ?authorURI ?authorName
+                    ?authorCountry ?authorImage
+      WHERE {
+        ${uri} wdt:P1476 ?title ;
+               wdt:P577 ?publication_date ;
+               p:P407 ?language ;
+               p:P495 ?book_country_origin ;
+               wdt:P50 ?authorURI .
+
+        ?authorURI p:P735 ?authorName ;
+                   p:P27 ?authorCountry ;
+                   p:P18 ?authorImage ;
+
+      }
+    `;
  }
 
 }

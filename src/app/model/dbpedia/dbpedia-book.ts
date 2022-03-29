@@ -1,6 +1,6 @@
-import {HelperDto} from "./dto/helper.dto";
+import {HelperDto} from "../dto/helper.dto";
 
-export interface Book {
+export interface DbpediaBook {
   abstract: HelperDto;
   author: HelperDto;
   authorName: HelperDto;
